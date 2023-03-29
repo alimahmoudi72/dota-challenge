@@ -42,7 +42,8 @@ public class MatchController {
      */
     @ApiOperation(value = "Return the match id associated with the parsed events")
     @PostMapping(consumes = MediaType.TEXT_PLAIN_VALUE)
-    public ResponseEntity<Long> ingestCombatLog(@RequestBody @NotBlank String combatLog) throws InputIsNotParsableException, InternalServerErrorException {
+    public ResponseEntity<Long> ingestCombatLog(@RequestBody @NotBlank String combatLog) throws InputIsNotParsableException,
+            InternalServerErrorException {
 
         return ResponseEntity.ok(matchService.ingestCombatLog(combatLog));
     }
@@ -58,7 +59,8 @@ public class MatchController {
             path = "{matchId}",
             produces = MediaType.APPLICATION_JSON_VALUE
     )
-    public ResponseEntity<List<HeroKills>> getMatch(@PathVariable("matchId") Long matchId) throws MatchNotFoundException, InternalServerErrorException {
+    public ResponseEntity<List<HeroKills>> getMatch(@PathVariable("matchId") Long matchId) throws MatchNotFoundException,
+            InternalServerErrorException {
 
         List<HeroKills> heroKillsList = matchService.getMatch(matchId).entrySet()
                 .stream()
@@ -81,7 +83,8 @@ public class MatchController {
     )
     public ResponseEntity<List<HeroItem>> getHeroItems(
             @PathVariable("matchId") Long matchId,
-            @PathVariable("heroName") String heroName) throws MatchNotFoundException, NoResultException, InternalServerErrorException {
+            @PathVariable("heroName") String heroName) throws MatchNotFoundException, NoResultException,
+            InternalServerErrorException {
 
         List<HeroItem> heroItemList = matchService.getHeroItems(matchId, heroName)
                 .stream()
@@ -104,7 +107,8 @@ public class MatchController {
     )
     public ResponseEntity<List<HeroSpells>> getHeroSpells(
             @PathVariable("matchId") Long matchId,
-            @PathVariable("heroName") String heroName) throws MatchNotFoundException, NoResultException, InternalServerErrorException {
+            @PathVariable("heroName") String heroName) throws MatchNotFoundException, NoResultException,
+            InternalServerErrorException {
 
         List<HeroSpells> heroSpellsList = matchService.getHeroSpells(matchId, heroName).entrySet()
                 .stream()
@@ -127,7 +131,8 @@ public class MatchController {
     )
     public ResponseEntity<List<HeroDamage>> getHeroDamages(
             @PathVariable("matchId") Long matchId,
-            @PathVariable("heroName") String heroName) throws MatchNotFoundException, NoResultException, InternalServerErrorException {
+            @PathVariable("heroName") String heroName) throws MatchNotFoundException, NoResultException,
+            InternalServerErrorException {
 
         List<HeroDamage> heroDamageList = matchService.getHeroDamages(matchId, heroName).entrySet()
                 .stream()

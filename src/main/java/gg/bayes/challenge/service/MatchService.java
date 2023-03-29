@@ -51,6 +51,12 @@ public class MatchService {
         }
     }
 
+    /**
+     * Fetches the mach entity.
+     *
+     * @param matchId the match identifier
+     * @return the match entity associated with match id
+     */
     private MatchEntity findMatch(Long matchId) throws MatchNotFoundException {
         Optional<MatchEntity> match = matchRepository.findById(matchId);
         if (match.isPresent()) {
@@ -60,6 +66,13 @@ public class MatchService {
         }
     }
 
+    /**
+     * Ingests a DOTA combat log file, parses and persists relevant events data. All events are associated with the same
+     * match id.
+     *
+     * @param combatLog the content of the combat log file
+     * @return the match id associated with the parsed events
+     */
     public Long ingestCombatLog(String combatLog) throws InputIsNotParsableException, InternalServerErrorException {
         try {
             MatchEntity matchEntity = new MatchEntity();
@@ -83,6 +96,12 @@ public class MatchService {
         }
     }
 
+    /**
+     * Fetches the heroes and their kill counts for the given match.
+     *
+     * @param matchId the match identifier
+     * @return a Map which its key refers to hero name and its value refers to his kill count
+     */
     public Map<String, Long> getMatch(Long matchId) throws MatchNotFoundException, InternalServerErrorException {
         try {
             return combatLogEntryService.fetchEntries(findMatch(matchId), CombatLogEntryEntity.Type.HERO_KILLED)
@@ -97,7 +116,15 @@ public class MatchService {
         }
     }
 
-    public List<Pair<String, Long>> getHeroItems(Long matchId, String actor) throws MatchNotFoundException, NoResultException, InternalServerErrorException {
+    /**
+     * For the given match, fetches the items bought by the named hero.
+     *
+     * @param matchId the match identifier
+     * @param actor   the hero name
+     * @return a List of pairs containing items bought by the hero and the timestamp respectively
+     */
+    public List<Pair<String, Long>> getHeroItems(Long matchId, String actor) throws MatchNotFoundException,
+            NoResultException, InternalServerErrorException {
         try {
             List<Pair<String, Long>> result = new ArrayList<>();
             combatLogEntryService.fetchEntries(findMatch(matchId), actor, CombatLogEntryEntity.Type.ITEM_PURCHASED)
@@ -115,7 +142,15 @@ public class MatchService {
         }
     }
 
-    public Map<String, Long> getHeroSpells(Long matchId, String actor) throws MatchNotFoundException, NoResultException, InternalServerErrorException {
+    /**
+     * For the given match, fetches the spells cast by the named hero.
+     *
+     * @param matchId the match identifier
+     * @param actor   the hero name
+     * @return a Map which its key refers to spells cast by the hero and its value refers to how many times they were cast
+     */
+    public Map<String, Long> getHeroSpells(Long matchId, String actor) throws MatchNotFoundException, NoResultException,
+            InternalServerErrorException {
         try {
             Map<String, Long> result = combatLogEntryService.fetchEntries(findMatch(matchId), actor, CombatLogEntryEntity.Type.SPELL_CAST)
                     .stream()
@@ -133,7 +168,16 @@ public class MatchService {
         }
     }
 
-    public Map<String, Pair<Integer, Integer>> getHeroDamages(Long matchId, String actor) throws MatchNotFoundException, NoResultException, InternalServerErrorException {
+    /**
+     * For the given match, fetches damage done data for the named hero.
+     *
+     * @param matchId the match identifier
+     * @param actor   the hero name
+     * @return a Map which its key refers to target and its value refers to a Pair containing number of times and total
+     * damage elements respectively
+     */
+    public Map<String, Pair<Integer, Integer>> getHeroDamages(Long matchId, String actor) throws MatchNotFoundException,
+            NoResultException, InternalServerErrorException {
         try {
             Map<String, List<CombatLogEntryEntity>> map =
                     combatLogEntryService.fetchEntries(findMatch(matchId), actor, CombatLogEntryEntity.Type.DAMAGE_DONE)

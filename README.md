@@ -2,7 +2,7 @@
 
 This is the [task](TASK.md).
 
-###Description
+## Description
 
 
 * The Builder pattern is used to build each combat entry extracted from the log file because this pattern separates the construction of a complex object from its representation (the same construction process can create different representations). So I added `@Builder`, `@NoArgsConstructor`, and `@AllArgsConstructor` to `CombatLogEntryEntity.java` class.
