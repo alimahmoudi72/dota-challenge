@@ -24,7 +24,7 @@ public enum CombatLogParser {
         @Override
         protected CombatLogEntryEntity buildCombatLogEntry(Matcher matcher) {
             return CombatLogEntryEntity.builder()
-                    .timestamp(PURCHASE_ITEM.parseTimestamp(matcher.group(1)))
+                    .timestamp(KILL_HERO.parseTimestamp(matcher.group(1)))
                     .actor(matcher.group(3))
                     .target(matcher.group(2))
                     .type(CombatLogEntryEntity.Type.HERO_KILLED)
@@ -45,7 +45,7 @@ public enum CombatLogParser {
             }
 
             return CombatLogEntryEntity.builder()
-                    .timestamp(PURCHASE_ITEM.parseTimestamp(matcher.group(1)))
+                    .timestamp(CAST_SPELL.parseTimestamp(matcher.group(1)))
                     .actor(matcher.group(2))
                     .target(target)
                     .ability(matcher.group(3))
@@ -59,7 +59,7 @@ public enum CombatLogParser {
         @Override
         protected CombatLogEntryEntity buildCombatLogEntry(Matcher matcher) {
             return CombatLogEntryEntity.builder()
-                    .timestamp(PURCHASE_ITEM.parseTimestamp(matcher.group(1)))
+                    .timestamp(DAMAGE_HERO.parseTimestamp(matcher.group(1)))
                     .actor(matcher.group(2))
                     .target(matcher.group(3))
                     .damage(Integer.parseInt(matcher.group(5)))
